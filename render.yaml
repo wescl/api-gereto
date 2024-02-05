@@ -1,0 +1,4 @@
+services:
+  - name: api-gereto
+    buildCommand: npm install
+    startCommand: npm start
