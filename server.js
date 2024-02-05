@@ -6,7 +6,7 @@ const { ObjectId } = require('mongodb');
 const { v4: uuid } = require('uuid');
 
 const app = express();
-const port = 5000;
+const port = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
@@ -283,11 +283,8 @@ app.delete('/api/remover-servico/:projectId/:serviceId', async (req, res) => {
   }
 });
 
-
 insertCategories();
-(async () => {
-  await connectToDatabase();
-  app.listen(port, () => {
-    console.log(`Servidor está rodando na porta ${port}`);
-  });
-})();
+
+app.listen(port, () => {
+  console.log(`Server está rodando em > http://localhost:${port}`);
+});
