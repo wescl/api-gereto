@@ -16,32 +16,30 @@ const connectToDatabase = async () => {
   }
 };
 
-const getClient = () => new MongoClient(uri);;
+const getClient = () => new MongoClient(uri);
 
 module.exports = { connectToDatabase, getClient };
 
 const app = express();
 const port = process.env.PORT || 5000;
 
-app.use(cors());
+// Configuração do CORS
+const corsOptions = {
+  origin: 'https://gereto.netlify.app', // Substitua pelo domínio do seu frontend
+  optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 connectToDatabase();
 
 async function insertCategories() {
   const categoriesData = [
-    {
-      "name": "Infraestrutura"
-    },
-    {
-      "name": "Desenvolvimento"
-    },
-    {
-      "name": "Design"
-    },
-    {
-      "name": "Planejamento"
-    }
+    { "name": "Infraestrutura" },
+    { "name": "Desenvolvimento" },
+    { "name": "Design" },
+    { "name": "Planejamento" }
   ];
 
   try {
@@ -87,7 +85,6 @@ app.post('/api/inserir-dados', async (req, res) => {
   try {
     const client = getClient();
     const database = client.db('Teste');
-
     const projectsCollection = database.collection('projects');
 
     const projectToInsert = {
